@@ -4,12 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Arpeggi</title>
-    <!-- Font Awesome CDN for social icons -->
     <!<link rel="icon" type="image/png" href="/assets/imgs/InEgUadX.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <!-- Custom CSS for modern, roundy UI and animations -->
     <link rel="stylesheet" href="custom silly stuff.css">
-    <!-- Radiohead-inspired font: Orbitron from Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -202,14 +199,14 @@
             background: #e10600;
             color: #fff;
         }
-        /* Tab content sections */
+        
         #homeTabContent, #aboutTabContent, #spotifyTabContent, #blogTabContent {
             width: 100%;
             max-width: 700px;
             margin-left: auto;
             margin-right: auto;
         }
-        /* Spotify section */
+        
         .spotify-section {
             margin-top: 18px;
             margin-bottom: 10px;
@@ -244,7 +241,7 @@
             border: none;
             box-shadow: 0 2px 8px rgba(60,60,90,0.10);
         }
-        /* Blog section */
+        
         .blog-section {
             margin-top: 18px;
         }
@@ -272,7 +269,7 @@
             color: var(--ka-white);
             background: rgba(40,44,54,0.8);
         }
-        /* X preview and posts */
+        
         .x-preview, .x-posts-preview {
             margin: 18px 0;
             text-align: center;
@@ -303,7 +300,7 @@
             max-width: 480px;
             text-align: left;
         }
-        /* About Me tab */
+        
         #aboutTabContent section.about {
             margin-top: 18px;
             padding: 24px 18px;
@@ -316,7 +313,7 @@
             color: #444;
             font-size: 1.08rem;
         }
-        /* Loader styles */
+        
         .kida-loader {
             display: flex;
             justify-content: center;
@@ -360,7 +357,7 @@
             color: #fff;
             text-shadow: 0 2px 8px #e10600;
         }
-        /* Responsive */
+        
         @media (max-width: 1200px) {
             .container {
                 max-width: 98vw;
@@ -426,7 +423,7 @@
             <a href="https://x.com/clxirearpeggi" target="_blank" title="X/Twitter"><i class="fab fa-x-twitter"></i></a>
             <a href="https://steamcommunity.com/id/clxirearpeggi" target="_blank" title="Steam"><i class="fab fa-steam"></i></a>
         </div>
-        <!-- Tab Buttons -->
+        
         <div class="tab-buttons">
             <button id="homeTabBtn" class="tab-btn active">Home</button>
             <button id="aboutTabBtn" class="tab-btn">About Me</button>
@@ -434,7 +431,7 @@
             <button id="blogTabBtn" class="tab-btn">Blog & Updates</button>
             <button id="discordTabBtn" class="tab-btn">Discord Server</button>
         </div>
-        <!-- Loader -->
+        
         <div id="kidaLoader" style="display:none;">
             <div class="kida-loader">
                 <div class="kida-bars">
@@ -447,7 +444,7 @@
                 <span class="kida-loader-text" id="kidaLoaderText">Loading...</span>
             </div>
         </div>
-        <!-- Home Tab Content -->
+        
         <div id="homeTabContent">
             <div class="x-preview radiohead-font">
                 <a href="https://x.com/clxirearpeggi" target="_blank" style="text-decoration:none; color:#e10600; font-weight:700; font-size:1.1rem;">
@@ -485,14 +482,14 @@
                     <em>Watch my latest videos and listen to my music on YouTube!</em>
                 </div>
                 <div style="margin-top:14px; display:flex; justify-content:center;">
-                    <!-- Requested YouTube video embed -->
+                    
                     <iframe width="320" height="180" src="https://www.youtube.com/embed/EW6SBWPs968" 
                         title="YouTube Preview" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                         allowfullscreen style="border-radius:12px; box-shadow:0 1px 4px rgba(60,60,90,0.04);"></iframe>
                 </div>
             </div>
         </div>
-        <!-- About Me Tab Content (hidden by default) -->
+        
         <div id="aboutTabContent" style="display:none;">
             <section class="about radiohead-font">
                 <h2 style="color:#e10600; margin-bottom:18px;">About Me</h2>
@@ -504,7 +501,7 @@
                 </p>
             </section>
         </div>
-        <!-- Spotify Tab Content (hidden by default) -->
+        
         <div id="spotifyTabContent" style="display:none;">
             <section class="spotify-section radiohead-font" id="spotifySection">
                 <h2 style="color:#e10600; margin-bottom:18px;">My Spotify Playlists</h2>
@@ -524,7 +521,7 @@
                 </div>
             </section>
         </div>
-        <!-- Blog Tab Content (hidden by default) -->
+        
         <div id="blogTabContent" style="display:none;">
             <section class="blog-section" id="blogSection">
                 <h2 class="radiohead-font">Blog & Updates</h2>
@@ -533,14 +530,14 @@
                 </div>
             </section>
         </div>
-        <!-- Discord Server Tab Content (hidden by default) -->
+        
         <div id="discordTabContent" style="display:none;">
             <section class="about radiohead-font" style="text-align:center;">
                 <h2 style="color:#e10600; margin-bottom:18px;">Discord Server</h2>
                 <p style="font-size:1.2rem; color:#444;">Coming soon</p>
             </section>
         </div>
-        <!-- License section -->
+        
         <footer style="text-align:center; margin-top:32px; font-size:0.95rem; color:#888;">
             <hr style="margin-bottom:12px;">
             <p>
@@ -581,12 +578,12 @@
             darkMode = !darkMode;
             setDarkMode(darkMode);
             localStorage.setItem('darkMode', darkMode);
-            // Animation for toggle button
+            
             toggleBtn.classList.add('toggle-animate');
             setTimeout(() => toggleBtn.classList.remove('toggle-animate'), 400);
         });
 
-        // Animate social icons on hover
+        
         document.querySelectorAll('.social-links a').forEach(a => {
             a.addEventListener('mouseenter', () => {
                 a.classList.add('icon-animate');
@@ -668,7 +665,7 @@
         blogTabBtn.addEventListener('click', () => showTab('blog'));
         discordTabBtn.addEventListener('click', () => showTab('discord'));
 
-        // Show home tab by default
+        
         showTab('home');
     </script>
 </body>
