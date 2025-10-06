@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arpeggi</title>
+    <!-- Font Awesome CDN for social icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <!-- Custom CSS for modern, roundy UI and animations -->
+    <link rel="stylesheet" href="custom silly stuff.css">
+    <!-- Radiohead-inspired font: Orbitron from Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --ka-bg: #1a1a1a;
+            --ka-bg-light: #f7f7f7;
+            --ka-red: #e10600;
+            --ka-white: #fff;
+            --ka-black: #111;
+            --ka-grey: #444;
+            --ka-grey-light: #eaeaea;
+            --ka-accent: #e10600;
+            --ka-card: #f7f7f7;
+            --ka-card-dark: #23262f;
+        }
+        body {
+            font-family: 'SF Pro Display', 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(135deg, var(--ka-bg-light) 0%, #ececec 100%);
+            margin: 0;
+            padding: 0;
+            transition: background 0.4s, color 0.4s;
+        }
+        body.dark-mode {
+            background: linear-gradient(135deg, var(--ka-bg) 0%, #23262f 100%);
+            color: var(--ka-white);
+        }
+        .container {
+            max-width: 900px;
+            min-width: 320px;
+            margin: 40px auto;
+            background: var(--ka-card);
+            border-radius: 40px;
+            box-shadow: 0 8px 40px rgba(60,60,90,0.13), 0 2px 8px rgba(60,60,90,0.08);
+            padding: 48px 32px 32px 32px;
+            backdrop-filter: blur(10px);
+            transition: background 0.4s, color 0.4s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .container.dark-mode {
+            background: var(--ka-card-dark);
+            color: var(--ka-white);
+            box-shadow: 0 8px 40px rgba(0,0,0,0.22), 0 2px 8px rgba(0,0,0,0.12);
+        }
+        h1, .radiohead-font {
+            font-family: 'Orbitron', 'Segoe UI', Arial, sans-serif;
+            letter-spacing: 0.06em;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 24px;
+            font-size: 3.2rem;
+            font-weight: 700;
+            color: var(--ka-black);
+            text-shadow: 0 2px 12px rgba(60,60,90,0.10);
+            transition: color 0.4s;
+        }
+        h1.dark-mode {
+            color: var(--ka-white);
+            text-shadow: 0 2px 12px rgba(225,6,0,0.18);
+        }
+        .about {
+            text-align: center;
+            margin-bottom: 32px;
+            color: var(--ka-grey);
+            font-size: 1.25rem;
+            border-radius: 24px;
+            background: rgba(245,245,255,0.7);
+            padding: 24px 18px;
+            box-shadow: 0 2px 8px rgba(60,60,90,0.06);
+            transition: background 0.4s, color 0.4s;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .about.dark-mode {
+            background: rgba(40,44,54,0.8);
+            color: var(--ka-grey-light);
+        }
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-top: 10px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+        .social-links a {
+            color: var(--ka-grey);
+            font-size: 2.2rem;
+            background: rgba(240,240,255,0.8);
+            border-radius: 50%;
+            padding: 16px;
+            box-shadow: 0 2px 8px rgba(60,60,90,0.10);
+            transition: color 0.2s, background 0.3s, transform 0.3s;
+            outline: none;
+            border: none;
+            position: relative;
+        }
+        .social-links a:hover, .social-links a:focus {
+            color: var(--ka-accent);
+            background: rgba(220,235,255,0.98);
+            transform: scale(1.18) translateY(-2px);
+            box-shadow: 0 8px 32px rgba(225,6,0,0.13);
+        }
+        .social-links a.dark-mode {
+            color: var(--ka-white);
+            background: rgba(40,44,54,0.8);
+        }
+        .social-links a.dark-mode:hover, .social-links a.dark-mode:focus {
+            color: var(--ka-accent);
+            background: rgba(60,70,90,0.98);
+        }
+        .icon-animate {
+            animation: bounce 0.4s cubic-bezier(.4,0,.2,1);
+        }
+        @keyframes bounce {
+            0% { transform: scale(1) translateY(0); }
+            40% { transform: scale(1.18) translateY(-8px);}
+            60% { transform: scale(0.98) translateY(2px);}
+            100% { transform: scale(1) translateY(0);}
+        }
+        .toggle-btn {
+            position: absolute;
+            top: 24px;
+            right: 32px;
+            background: rgba(240,240,255,0.8);
+            border: none;
+            font-size: 2.4rem;
+            cursor: pointer;
+            color: var(--ka-grey);
+            border-radius: 50%;
+            padding: 16px;
+            box-shadow: 0 2px 8px rgba(60,60,90,0.10);
+            transition: color 0.2s, background 0.3s, transform 0.3s;
+            z-index: 10;
+        }
+        .toggle-btn:hover, .toggle-btn:focus {
+            color: var(--ka-accent);
+            background: rgba(220,235,255,0.98);
+            transform: scale(1.13) rotate(-8deg);
+        }
+        body.dark-mode .toggle-btn {
+            color: var(--ka-white);
+            background: rgba(40,44,54,0.8);
+        }
+        body.dark-mode .toggle-btn:hover, body.dark-mode .toggle-btn:focus {
+            color: var(--ka-accent);
+            background: rgba(60,70,90,0.98);
+        }
+        .toggle-animate {
+            animation: toggle-pop 0.4s cubic-bezier(.4,0,.2,1);
+        }
+        @keyframes toggle-pop {
+            0% { transform: scale(1) rotate(0deg);}
+            40% { transform: scale(1.13) rotate(12deg);}
+            60% { transform: scale(0.98) rotate(-6deg);}
+            100% { transform: scale(1) rotate(0deg);}
+        }
+        .tab-buttons {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin: 24px 0;
+            flex-wrap: wrap;
+        }
+        .tab-btn {
+            background: rgba(240,240,255,0.8);
+            border: none;
+            border-radius: 22px;
+            padding: 14px 36px;
+            font-size: 1.15rem;
+            color: #444;
+            font-family: 'Orbitron', 'Segoe UI', Arial, sans-serif;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(60,60,90,0.10);
+            transition: background 0.3s, color 0.3s, transform 0.2s;
+        }
+        .tab-btn.active, .tab-btn:focus {
+            background: #e10600;
+            color: #fff;
+            transform: scale(1.07);
+        }
+        body.dark-mode .tab-btn {
+            background: rgba(40,44,54,0.8);
+            color: #eee;
+        }
+        body.dark-mode .tab-btn.active, body.dark-mode .tab-btn:focus {
+            background: #e10600;
+            color: #fff;
+        }
+        /* Tab content sections */
+        #homeTabContent, #aboutTabContent, #spotifyTabContent, #blogTabContent {
+            width: 100%;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        /* Spotify section */
+        .spotify-section {
+            margin-top: 18px;
+            margin-bottom: 10px;
+            padding: 18px 0 0 0;
+            border-radius: 24px;
+            background: rgba(245,245,255,0.7);
+            box-shadow: 0 2px 8px rgba(60,60,90,0.06);
+        }
+        .spotify-section.dark-mode {
+            background: rgba(40,44,54,0.8);
+        }
+        .spotify-section h2 {
+            font-size: 1.25rem;
+            color: var(--ka-accent);
+            margin-bottom: 14px;
+            letter-spacing: 0.04em;
+        }
+        .spotify-section.dark-mode h2 {
+            color: var(--ka-accent);
+        }
+        .spotify-section div {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+        }
+        .spotify-section iframe {
+            width: 100%;
+            max-width: 480px;
+            height: 80px;
+            border-radius: 14px;
+            border: none;
+            box-shadow: 0 2px 8px rgba(60,60,90,0.10);
+        }
+        /* Blog section */
+        .blog-section {
+            margin-top: 18px;
+        }
+        .blog-section h2 {
+            font-size: 1.25rem;
+            color: var(--ka-accent);
+            text-align: center;
+            margin-bottom: 14px;
+            letter-spacing: 0.04em;
+        }
+        .blog-section.dark-mode h2 {
+            color: var(--ka-accent);
+        }
+        .blog-list {
+            text-align: center;
+            color: var(--ka-black);
+            font-size: 1.13rem;
+            padding: 18px 0;
+            border-radius: 24px;
+            background: rgba(245,245,255,0.7);
+            box-shadow: 0 2px 8px rgba(60,60,90,0.06);
+            transition: background 0.4s, color 0.4s;
+        }
+        .blog-section.dark-mode .blog-list {
+            color: var(--ka-white);
+            background: rgba(40,44,54,0.8);
+        }
+        /* X preview and posts */
+        .x-preview, .x-posts-preview {
+            margin: 18px 0;
+            text-align: center;
+            background: rgba(245,245,255,0.7);
+            border-radius: 24px;
+            padding: 18px 14px;
+            box-shadow: 0 2px 8px rgba(60,60,90,0.06);
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .x-posts-preview h3 {
+            color: #e10600;
+            margin-bottom: 10px;
+            font-size: 1.13rem;
+        }
+        .x-posts-preview > div {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            align-items: center;
+        }
+        .x-posts-preview > div > div {
+            background: #fff;
+            border-radius: 14px;
+            padding: 12px 18px;
+            box-shadow: 0 1px 4px rgba(60,60,90,0.04);
+            max-width: 480px;
+            text-align: left;
+        }
+        /* About Me tab */
+        #aboutTabContent section.about {
+            margin-top: 18px;
+            padding: 24px 18px;
+            font-size: 1.18rem;
+        }
+        #aboutTabContent ul {
+            list-style: none;
+            padding: 0;
+            margin: 18px 0 0 0;
+            color: #444;
+            font-size: 1.08rem;
+        }
+        /* Loader styles */
+        .kida-loader {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 120px;
+            width: 100%;
+            background: transparent;
+            margin-bottom: 18px;
+        }
+        .kida-bars {
+            display: flex;
+            gap: 8px;
+        }
+        .kida-bar {
+            width: 12px;
+            height: 60px;
+            background: linear-gradient(180deg, #e10600 60%, #fff 100%);
+            border-radius: 6px;
+            animation: kidaBarAnim 1.2s infinite cubic-bezier(.4,0,.2,1);
+        }
+        .kida-bar:nth-child(2) { animation-delay: 0.2s; }
+        .kida-bar:nth-child(3) { animation-delay: 0.4s; }
+        .kida-bar:nth-child(4) { animation-delay: 0.6s; }
+        .kida-bar:nth-child(5) { animation-delay: 0.8s; }
+        @keyframes kidaBarAnim {
+            0%, 100% { height: 30px; background: linear-gradient(180deg, #e10600 60%, #fff 100%);}
+            50% { height: 80px; background: linear-gradient(180deg, #fff 0%, #e10600 100%);}
+        }
+        .kida-loader-text {
+            font-family: 'Orbitron', 'Segoe UI', Arial, sans-serif;
+            color: #e10600;
+            font-size: 1.1rem;
+            margin-left: 18px;
+            letter-spacing: 0.08em;
+            text-shadow: 0 2px 8px rgba(225,6,0,0.10);
+        }
+        body.dark-mode .kida-bar {
+            background: linear-gradient(180deg, #e10600 60%, #23262f 100%);
+        }
+        body.dark-mode .kida-loader-text {
+            color: #fff;
+            text-shadow: 0 2px 8px #e10600;
+        }
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .container {
+                max-width: 98vw;
+                padding: 24px 8px;
+            }
+            #homeTabContent, #aboutTabContent, #spotifyTabContent, #blogTabContent {
+                max-width: 98vw;
+            }
+            .x-preview, .x-posts-preview, .about, .spotify-section, .blog-list {
+                max-width: 98vw;
+            }
+        }
+        @media (max-width: 800px) {
+            h1 {
+                font-size: 2.2rem;
+            }
+            .tab-btn {
+                font-size: 1rem;
+                padding: 10px 18px;
+            }
+            .container {
+                padding: 12px 2px;
+                border-radius: 18px;
+            }
+            .about, .x-preview, .x-posts-preview, .spotify-section, .blog-list {
+                border-radius: 12px;
+                padding: 12px 6px;
+            }
+            .spotify-section iframe, .x-posts-preview > div > div {
+                max-width: 98vw;
+            }
+        }
+        @media (max-width: 500px) {
+            h1 {
+                font-size: 1.3rem;
+            }
+            .tab-btn {
+                font-size: 0.9rem;
+                padding: 7px 8px;
+                border-radius: 10px;
+            }
+            .container {
+                padding: 4px 0;
+                border-radius: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="toggle-btn" id="toggleMode" aria-label="Toggle dark mode">
+        <i class="fas fa-moon" id="toggleIcon"></i>
+    </button>
+    <div class="container" id="mainContainer">
+        <h1 id="mainHeader">Arpeggi</h1>
+        <div class="about" id="aboutSection">
+            <p class="radiohead-font">Hello! I'm Arpeggi, welcome to my personal website. Here you'll find my social media and more about me like projects and stuff.</p>
+        </div>
+        <div class="social-links" id="socialLinks">
+            <a href="https://www.youtube.com/@clxirearpeggi1" target="_blank" title="YouTube"><i class="fab fa-youtube"></i></a>
+            <a href="https://github.com/Clxire1" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+            <a href="https://www.instagram.com/clxirearpeggi/" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="https://t.co/49AFIWgIav" target="_blank" title="SoundCloud"><i class="fab fa-soundcloud"></i></a>
+            <a href="https://x.com/clxirearpeggi" target="_blank" title="X/Twitter"><i class="fab fa-x-twitter"></i></a>
+            <a href="https://steamcommunity.com/id/clxirearpeggi" target="_blank" title="Steam"><i class="fab fa-steam"></i></a>
+        </div>
+        <!-- Tab Buttons -->
+        <div class="tab-buttons">
+            <button id="homeTabBtn" class="tab-btn active">Home</button>
+            <button id="aboutTabBtn" class="tab-btn">About Me</button>
+            <button id="spotifyTabBtn" class="tab-btn">Spotify Playlists</button>
+            <button id="blogTabBtn" class="tab-btn">Blog & Updates</button>
+            <button id="discordTabBtn" class="tab-btn">Discord Server</button>
+        </div>
+        <!-- Loader -->
+        <div id="kidaLoader" style="display:none;">
+            <div class="kida-loader">
+                <div class="kida-bars">
+                    <div class="kida-bar"></div>
+                    <div class="kida-bar"></div>
+                    <div class="kida-bar"></div>
+                    <div class="kida-bar"></div>
+                    <div class="kida-bar"></div>
+                </div>
+                <span class="kida-loader-text" id="kidaLoaderText">Loading...</span>
+            </div>
+        </div>
+        <!-- Home Tab Content -->
+        <div id="homeTabContent">
+            <div class="x-preview radiohead-font">
+                <a href="https://x.com/clxirearpeggi" target="_blank" style="text-decoration:none; color:#e10600; font-weight:700; font-size:1.1rem;">
+                    <i class="fab fa-x-twitter" style="font-size:1.3rem; vertical-align:middle; margin-right:6px;"></i>
+                    @clxirearpeggi on X
+                </a>
+                <div style="margin-top:8px; color:#444; font-size:0.98rem;">
+                    <em>Check out my latest updates and thoughts on X!</em>
+                </div>
+            </div>
+            <div class="x-posts-preview radiohead-font">
+                <h3>Latest X Posts Preview</h3>
+                <div>
+                    <div>
+                        <span style="color:#e10600; font-weight:600;">@clxirearpeggi</span>
+                        <span style="color:#444; margin-left:8px;">Just launched my new playlist! 🎶 Check it out on Spotify.</span>
+                        <div style="font-size:0.85rem; color:#888; margin-top:4px;">Oct 1, 2025</div>
+                    </div>
+                    <div>
+                        <span style="color:#e10600; font-weight:600;">@clxirearpeggi</span>
+                        <span style="color:#444; margin-left:8px;">Working on a new web project. Stay tuned for updates!</span>
+                        <div style="font-size:0.85rem; color:#888; margin-top:4px;">Sep 28, 2025</div>
+                    </div>
+                </div>
+                <div style="margin-top:10px;">
+                    <a href="https://x.com/clxirearpeggi" target="_blank" style="color:#e10600; text-decoration:underline;">See more on X</a>
+                </div>
+            </div>
+            <div class="youtube-preview radiohead-font" style="margin:18px 0; text-align:center; background:rgba(245,245,255,0.7); border-radius:24px; padding:18px 14px; box-shadow:0 2px 8px rgba(60,60,90,0.06); max-width:700px; margin-left:auto; margin-right:auto;">
+                <a href="https://www.youtube.com/@clclxirearpeggi1" target="_blank" style="text-decoration:none; color:#e10600; font-weight:700; font-size:1.1rem;">
+                    <i class="fab fa-youtube" style="font-size:1.3rem; vertical-align:middle; margin-right:6px;"></i>
+                    YouTube Content
+                </a>
+                <div style="margin-top:8px; color:#444; font-size:0.98rem;">
+                    <em>Watch my latest videos and listen to my music on YouTube!</em>
+                </div>
+                <div style="margin-top:14px; display:flex; justify-content:center;">
+                    <!-- Requested YouTube video embed -->
+                    <iframe width="320" height="180" src="https://www.youtube.com/embed/EW6SBWPs968" 
+                        title="YouTube Preview" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen style="border-radius:12px; box-shadow:0 1px 4px rgba(60,60,90,0.04);"></iframe>
+                </div>
+            </div>
+        </div>
+        <!-- About Me Tab Content (hidden by default) -->
+        <div id="aboutTabContent" style="display:none;">
+            <section class="about radiohead-font">
+                <h2 style="color:#e10600; margin-bottom:18px;">About Me</h2>
+                <p style="margin-bottom:18px;">
+                    Hi, I'm Arpeggi! I'm a Radiohead enthusiast, hardware student, and I'm from Portugal.<br><br>
+                    I enjoy creating fun projects and learning new things. I'm starting this website to share my personal projects—some for fun, some with real utility for others.<br><br>
+                    I'm a big fan of free and open source software, and I love experimenting with hardware. My mission is to make things that everyone can enjoy, even on older devices.<br><br>
+                    I also make music and hope you'll check it out. Most of my playlists are on Spotify, so give them a listen!
+                </p>
+            </section>
+        </div>
+        <!-- Spotify Tab Content (hidden by default) -->
+        <div id="spotifyTabContent" style="display:none;">
+            <section class="spotify-section radiohead-font" id="spotifySection">
+                <h2 style="color:#e10600; margin-bottom:18px;">My Spotify Playlists</h2>
+                <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:24px;">
+                    <iframe src="https://open.spotify.com/embed/playlist/2z4t7ElfuRdVwCVocbdkcg?utm_source=generator"
+                        width="340" height="80" frameborder="0" allowtransparency="true" allow="encrypted-media"
+                        style="border-radius:14px; box-shadow:0 2px 8px rgba(60,60,90,0.10);"></iframe>
+                    <iframe src="https://open.spotify.com/embed/playlist/4iVYOxVCZygBUZXqvk4AUe?utm_source=generator"
+                        width="340" height="80" frameborder="0" allowtransparency="true" allow="encrypted-media"
+                        style="border-radius:14px; box-shadow:0 2px 8px rgba(60,60,90,0.10);"></iframe>
+                    <iframe src="https://open.spotify.com/embed/playlist/0efpAQetAWXrblUPYxVUbO?utm_source=generator"
+                        width="340" height="80" frameborder="0" allowtransparency="true" allow="encrypted-media"
+                        style="border-radius:14px; box-shadow:0 2px 8px rgba(60,60,90,0.10);"></iframe>
+                </div>
+                <div style="margin-top:24px; text-align:center; color:#444; font-size:1rem;">
+                    <em>Click a playlist to listen on Spotify. All playlists are made by me.</em>
+                </div>
+            </section>
+        </div>
+        <!-- Blog Tab Content (hidden by default) -->
+        <div id="blogTabContent" style="display:none;">
+            <section class="blog-section" id="blogSection">
+                <h2 class="radiohead-font">Blog & Updates</h2>
+                <div class="blog-list">
+                    <p>No posts yet. Stay tuned for updates about my projects and more!</p>
+                </div>
+            </section>
+        </div>
+        <!-- Discord Server Tab Content (hidden by default) -->
+        <div id="discordTabContent" style="display:none;">
+            <section class="about radiohead-font" style="text-align:center;">
+                <h2 style="color:#e10600; margin-bottom:18px;">Discord Server</h2>
+                <p style="font-size:1.2rem; color:#444;">Coming soon</p>
+            </section>
+        </div>
+        <!-- License section -->
+        <footer style="text-align:center; margin-top:32px; font-size:0.95rem; color:#888;">
+            <hr style="margin-bottom:12px;">
+            <p>
+                <strong>License:</strong> 
+                <a href="https://choosealicense.com/licenses/mit/" target="_blank" style="color:#e10600;">MIT License</a> — 
+                You are free to use, copy, modify, and distribute this website for any purpose, with or without attribution.
+            </p>
+        </footer>
+    </div>
+    <script>
+        const toggleBtn = document.getElementById('toggleMode');
+        const toggleIcon = document.getElementById('toggleIcon');
+        const body = document.body;
+        const container = document.getElementById('mainContainer');
+        const about = document.getElementById('aboutSection');
+        const socialLinks = document.getElementById('socialLinks');
+        const mainHeader = document.getElementById('mainHeader');
+        const spotifySection = document.getElementById('spotifySection');
+        const blogSection = document.getElementById('blogSection');
+
+        function setDarkMode(on) {
+            body.classList.toggle('dark-mode', on);
+            container.classList.toggle('dark-mode', on);
+            about.classList.toggle('dark-mode', on);
+            mainHeader.classList.toggle('dark-mode', on);
+            spotifySection.classList.toggle('dark-mode', on);
+            blogSection.classList.toggle('dark-mode', on);
+            document.querySelectorAll('.social-links a').forEach(a => {
+                a.classList.toggle('dark-mode', on);
+            });
+            toggleIcon.className = on ? 'fas fa-sun' : 'fas fa-moon';
+        }
+
+        let darkMode = localStorage.getItem('darkMode') === 'true';
+        setDarkMode(darkMode);
+
+        toggleBtn.addEventListener('click', () => {
+            darkMode = !darkMode;
+            setDarkMode(darkMode);
+            localStorage.setItem('darkMode', darkMode);
+            // Animation for toggle button
+            toggleBtn.classList.add('toggle-animate');
+            setTimeout(() => toggleBtn.classList.remove('toggle-animate'), 400);
+        });
+
+        // Animate social icons on hover
+        document.querySelectorAll('.social-links a').forEach(a => {
+            a.addEventListener('mouseenter', () => {
+                a.classList.add('icon-animate');
+            });
+            a.addEventListener('mouseleave', () => {
+                a.classList.remove('icon-animate');
+            });
+        });
+        // Tab switching logic
+        const homeTabBtn = document.getElementById('homeTabBtn');
+        const aboutTabBtn = document.getElementById('aboutTabBtn');
+        const spotifyTabBtn = document.getElementById('spotifyTabBtn');
+        const blogTabBtn = document.getElementById('blogTabBtn');
+        const discordTabBtn = document.getElementById('discordTabBtn');
+        const homeTabContent = document.getElementById('homeTabContent');
+        const aboutTabContent = document.getElementById('aboutTabContent');
+        const spotifyTabContent = document.getElementById('spotifyTabContent');
+        const blogTabContent = document.getElementById('blogTabContent');
+        const discordTabContent = document.getElementById('discordTabContent');
+        const kidaLoader = document.getElementById('kidaLoader');
+        const kidaLoaderText = document.getElementById('kidaLoaderText');
+
+        function showTab(tabName) {
+            homeTabContent.style.display = 'none';
+            aboutTabContent.style.display = 'none';
+            spotifyTabContent.style.display = 'none';
+            blogTabContent.style.display = 'none';
+            discordTabContent.style.display = 'none';
+            homeTabBtn.classList.remove('active');
+            aboutTabBtn.classList.remove('active');
+            spotifyTabBtn.classList.remove('active');
+            blogTabBtn.classList.remove('active');
+            discordTabBtn.classList.remove('active');
+            kidaLoader.style.display = 'flex';
+            switch(tabName) {
+                case 'home':
+                    kidaLoader.style.display = 'none';
+                    homeTabContent.style.display = '';
+                    homeTabBtn.classList.add('active');
+                    break;
+                case 'about':
+                    kidaLoaderText.textContent = 'Loading About Me...';
+                    setTimeout(() => {
+                        kidaLoader.style.display = 'none';
+                        aboutTabContent.style.display = '';
+                        aboutTabBtn.classList.add('active');
+                    }, 1200);
+                    break;
+                case 'spotify':
+                    kidaLoaderText.textContent = 'Loading Spotify Playlists...';
+                    setTimeout(() => {
+                        kidaLoader.style.display = 'none';
+                        spotifyTabContent.style.display = '';
+                        spotifyTabBtn.classList.add('active');
+                    }, 1200);
+                    break;
+                case 'blog':
+                    kidaLoaderText.textContent = 'Loading Blog & Updates...';
+                    setTimeout(() => {
+                        kidaLoader.style.display = 'none';
+                        blogTabContent.style.display = '';
+                        blogTabBtn.classList.add('active');
+                    }, 1200);
+                    break;
+                case 'discord':
+                    kidaLoaderText.textContent = 'Loading Discord Server...';
+                    setTimeout(() => {
+                        kidaLoader.style.display = 'none';
+                        discordTabContent.style.display = '';
+                        discordTabBtn.classList.add('active');
+                    }, 1200);
+                    break;
+            }
+        }
+
+        homeTabBtn.addEventListener('click', () => showTab('home'));
+        aboutTabBtn.addEventListener('click', () => showTab('about'));
+        spotifyTabBtn.addEventListener('click', () => showTab('spotify'));
+        blogTabBtn.addEventListener('click', () => showTab('blog'));
+        discordTabBtn.addEventListener('click', () => showTab('discord'));
+
+        // Show home tab by default
+        showTab('home');
+    </script>
+</body>
+</html>
