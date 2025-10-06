@@ -404,6 +404,46 @@
                 border-radius: 8px;
             }
         }
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+    .modal.show { display: flex; }
+        .modal-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0,0,0,0.45);
+            backdrop-filter: blur(4px);
+        }
+        .modal-content {
+            position: relative;
+            z-index: 1001;
+            background: var(--ka-card);
+            border-radius: 16px;
+            padding: 18px 20px;
+            max-width: 420px;
+            width: calc(100% - 40px);
+            box-shadow: 0 8px 40px rgba(0,0,0,0.25);
+            text-align: center;
+        }
+        body.dark-mode .modal-content { background: var(--ka-card-dark); color: var(--ka-white); }
+        .modal-body { display:flex; flex-direction:column; align-items:center; gap:10px; }
+        .modal-icon { font-size:2.2rem; color:var(--ka-accent); }
+        .modal-close {
+            position: absolute;
+            top:8px;
+            right:10px;
+            border:none;
+            background:transparent;
+            font-size:1.4rem;
+            cursor:pointer;
+            color: #888;
+        }
+        .modal-close:focus { outline:2px solid rgba(225,6,0,0.12); }
     </style>
 </head>
 <body>
@@ -534,7 +574,9 @@
         <div id="discordTabContent" style="display:none;">
             <section class="about radiohead-font" style="text-align:center;">
                 <h2 style="color:#e10600; margin-bottom:18px;">Discord Server</h2>
-                <p style="font-size:1.2rem; color:#444;">Coming soon</p>
+                <div style="margin-top:6px;">
+                    <button id="discordComingBtn" class="tab-btn" style="padding:10px 20px; border-radius:12px;">Coming Soon</button>
+                </div>
             </section>
         </div>
         
@@ -592,7 +634,6 @@
                 a.classList.remove('icon-animate');
             });
         });
-        // Tab switching logic
         const homeTabBtn = document.getElementById('homeTabBtn');
         const aboutTabBtn = document.getElementById('aboutTabBtn');
         const spotifyTabBtn = document.getElementById('spotifyTabBtn');
@@ -606,7 +647,7 @@
         const kidaLoader = document.getElementById('kidaLoader');
         const kidaLoaderText = document.getElementById('kidaLoaderText');
 
-        function showTab(tabName) {
+    function showTab(tabName) {
             homeTabContent.style.display = 'none';
             aboutTabContent.style.display = 'none';
             spotifyTabContent.style.display = 'none';
@@ -665,8 +706,49 @@
         blogTabBtn.addEventListener('click', () => showTab('blog'));
         discordTabBtn.addEventListener('click', () => showTab('discord'));
 
-        
         showTab('home');
+    </script>
+    <div id="comingModal" class="modal" role="dialog" aria-modal="true" aria-hidden="true">
+        <div class="modal-overlay" id="modalOverlay"></div>
+        <div class="modal-content" role="document">
+            <button class="modal-close" id="modalCloseBtn" aria-label="Close">&times;</button>
+            <div class="modal-body">
+                <div class="modal-icon" aria-hidden="true"><i class="fas fa-hard-hat"></i></div>
+                <h3 style="margin:0; color:var(--ka-accent);">Under development</h3>
+                <p style="margin:6px 0 0 0; color:#666;">This server is currently being built, come back later. </p>
+                <div style="margin-top:12px;"><button id="modalOkBtn" class="tab-btn" style="padding:8px 18px; border-radius:10px;">OK</button></div>
+            </div>
+        </div>
+    </div>
+    <script>
+        
+        const discordComingBtn = document.getElementById('discordComingBtn');
+        const comingModal = document.getElementById('comingModal');
+        const modalOverlay = document.getElementById('modalOverlay');
+        const modalCloseBtn = document.getElementById('modalCloseBtn');
+        const modalOkBtn = document.getElementById('modalOkBtn');
+
+        function showComingModal() {
+            comingModal.classList.add('show');
+            comingModal.setAttribute('aria-hidden', 'false');
+        }
+        function hideComingModal() {
+            comingModal.classList.remove('show');
+            comingModal.setAttribute('aria-hidden', 'true');
+        }
+
+        if (discordComingBtn) {
+            discordComingBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                showComingModal();
+            });
+        }
+        modalOverlay.addEventListener('click', hideComingModal);
+        modalCloseBtn.addEventListener('click', hideComingModal);
+        modalOkBtn.addEventListener('click', hideComingModal);
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && comingModal.classList.contains('show')) hideComingModal();
+        });
     </script>
 </body>
 </html>
